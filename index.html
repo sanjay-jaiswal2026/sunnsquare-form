@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sunn Square Solar — सोलर की पूछताछ</title>
+<meta name="description" content="घर या दुकान पर सोलर लगवाना है? अपनी जानकारी भरिए, हम call करके पूरा हिसाब बताएँगे — बिल कितना घटेगा, सरकारी छूट कितनी मिलेगी, ख़र्च कितना आएगा।">
+<meta name="theme-color" content="#15181d">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#15181d; --muted:#6b7280; --line:#e4e7ec;
+         --brand:#f59e0b; --brand-dark:#b45309; --ok:#15803d; --bad:#b91c1c; --r:14px;
+         color-scheme: light }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;
+    font-size:16px;line-height:1.6;
+    padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+  [hidden]{display:none!important}
+  .wrap{max-width:560px;margin:0 auto;padding:16px}
+
+  header{background:#15181d;color:#fff;padding:22px 16px 26px}
+  header .in{max-width:560px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+  .dot{width:30px;height:30px;border-radius:9px;background:var(--brand);flex:none;
+    display:flex;align-items:center;justify-content:center;font-size:17px}
+  header h1{font-size:23px;line-height:1.35;margin:16px 0 8px;font-weight:800}
+  header p{margin:0;color:#c3c8d0;font-size:15px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px 16px;margin:-14px 0 14px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  label{display:block;font-size:14px;font-weight:600;margin:14px 0 5px}
+  label:first-of-type{margin-top:0}
+  .req{color:var(--bad)}
+  input,select,textarea{font:inherit;width:100%;padding:12px;border:1px solid var(--line);
+    border-radius:10px;background:#fff;color:var(--ink)}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--brand);outline-offset:1px}
+  .hint{font-size:13px;color:var(--muted);margin:5px 0 0}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:420px){.two{grid-template-columns:1fr}}
+
+  .btn{width:100%;margin-top:20px;padding:15px;border:0;border-radius:12px;
+    background:var(--brand);color:#1a1205;font-size:17px;font-weight:800;cursor:pointer}
+  .btn:active{background:var(--brand-dark);color:#fff}
+  .btn[disabled]{opacity:.6}
+
+  .msg{margin-top:14px;padding:12px;border-radius:10px;font-size:14px;font-weight:600}
+  .msg.bad{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+
+  .steps{margin:0;padding:0;list-style:none}
+  .steps li{display:flex;gap:12px;align-items:flex-start;margin:14px 0}
+  .n{width:28px;height:28px;border-radius:50%;background:#fff7ed;color:var(--brand-dark);
+    border:1px solid #fed7aa;flex:none;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px}
+  .steps b{display:block;font-size:15px}
+  .steps span{font-size:14px;color:var(--muted)}
+  h2{font-size:17px;margin:0 0 4px}
+
+  .ok-wrap{text-align:center;padding:26px 16px}
+  .tick{width:64px;height:64px;border-radius:50%;background:#dcfce7;color:var(--ok);
+    display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px}
+  .ok-wrap h2{font-size:22px;margin:0 0 8px}
+  .ok-wrap p{color:var(--muted);margin:0 0 20px}
+  .acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:380px){.acts{grid-template-columns:1fr}}
+  .act{display:block;padding:14px;border-radius:12px;text-decoration:none;font-weight:700;
+    font-size:15px;text-align:center;border:1px solid var(--line);background:#fff;color:var(--ink)}
+  .act.wa{background:#dcfce7;border-color:#86efac;color:#14532d}
+
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:18px 16px 30px;line-height:1.7}
+  .pet{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="in">
+    <div class="brand"><span class="dot">☀️</span> Sunn Square Solar</div>
+    <h1 id="h1">सोलर लगवाना है?<br>अपनी जानकारी भर दीजिए</h1>
+    <p id="hsub">हम call करके पूरा हिसाब बताएँगे — बिल कितना घटेगा, सरकारी छूट कितनी मिलेगी, और ख़र्च कितना आएगा।</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ===== form ===== -->
+  <div class="card" id="box">
+    <label for="name">आपका नाम <span class="req">*</span></label>
+    <input id="name" autocomplete="name" placeholder="जैसे — राजकुमार विश्वकर्मा">
+
+    <label for="phone">मोबाइल नंबर <span class="req">*</span></label>
+    <input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="9876543210">
+    <p class="hint">इसी नंबर पर हम call करेंगे</p>
+
+    <div class="two">
+      <div>
+        <label for="village">गाँव / मोहल्ला</label>
+        <input id="village" placeholder="जैसे — घोसी">
+      </div>
+      <div>
+        <label for="district">ज़िला</label>
+        <input id="district" placeholder="जैसे — मऊ">
+      </div>
+    </div>
+
+    <label for="bill">महीने का बिजली बिल (₹)</label>
+    <input id="bill" type="text" inputmode="numeric" placeholder="जैसे — 2500">
+    <p class="hint">अंदाज़ा भी चलेगा — इसी से पता चलता है कि कितना बड़ा सिस्टम चाहिए</p>
+
+    <label for="note">और कुछ बताना चाहें</label>
+    <textarea id="note" rows="3" placeholder="जैसे — दुकान के लिए चाहिए, या छत पर जगह कम है"></textarea>
+
+    <!-- मशीनें इसे भर देती हैं, आदमी नहीं -->
+    <input class="pet" id="pet" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="website">
+
+    <button class="btn" id="go">भेज दीजिए</button>
+    <div id="msg"></div>
+  </div>
+
+  <!-- ===== धन्यवाद ===== -->
+  <div class="card ok-wrap" id="done" hidden>
+    <div class="tick">✓</div>
+    <h2 id="dtitle">धन्यवाद 🙏</h2>
+    <p>आपकी जानकारी हम तक पहुँच गई है।<br>हम जल्दी ही आपको call करेंगे।</p>
+    <div class="acts">
+      <a class="act" id="a_call">📞 अभी call कीजिए</a>
+      <a class="act wa" id="a_wa" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- ===== आगे क्या होगा ===== -->
+  <div class="card" id="kya">
+    <h2>आगे क्या होगा</h2>
+    <ol class="steps">
+      <li><span class="n">1</span><div><b>हम call करेंगे</b>
+        <span>आपकी ज़रूरत समझेंगे और मोटा-मोटा ख़र्च बताएँगे</span></div></li>
+      <li><span class="n">2</span><div><b>छत देखने आएँगे</b>
+        <span>नाप-जोख करके पक्का बताएँगे कि कितने kW का सिस्टम लगेगा</span></div></li>
+      <li><span class="n">3</span><div><b>पूरा हिसाब देंगे</b>
+        <span>ख़र्च, सरकारी छूट, और बिजली के बिल में कितनी बचत होगी — लिखकर</span></div></li>
+    </ol>
+  </div>
+
+</div>
+
+<footer>
+  <b>Sri Ram Agencies</b> · Sunn Square Solar<br>
+  घोसी, मऊ (उत्तर प्रदेश)<br>
+  <span id="fnum"></span>
+</footer>
+
+<script>
+/* ===== जिस डिब्बे में पूछताछ गिरेगी ===== */
+var URL_ = "https://ddjwszlijepejulcjmsx.supabase.co";
+var KEY  = "sb_publishable_yqLA_8lAwOltbnq0rI_nyA_dhY7N2Qz";
+var PHONE = "9196496515";          /* बदलना हो तो सिर्फ़ यह पंक्ति बदलिए */
+
+var $ = function(id){ return document.getElementById(id); };
+var P = new URLSearchParams(location.search);
+var CAMP = (P.get("c") || "").slice(0,60) || null;     /* ?c=diwali-poster */
+var SRC  = (P.get("s") || "website").slice(0,30);      /* ?s=dukaan-qr */
+
+/* नंबर को साफ़ करके असली 10 अंक निकालिए */
+function tel10(s){
+  var d = String(s||"").replace(/\D/g,"").replace(/^0+/,"");
+  if(d.length > 10) d = d.slice(-10);
+  return d;
+}
+var wa = "91" + tel10(PHONE);
+$("a_call").href = "tel:+" + wa;
+$("a_wa").href   = "https://wa.me/" + wa + "?text=" +
+  encodeURIComponent("नमस्ते, मुझे सोलर के बारे में जानकारी चाहिए।");
+$("fnum").textContent = "📞 " + PHONE;
+
+function kaho(text){
+  $("msg").innerHTML = text ? '<div class="msg bad">' + text + '</div>' : "";
+}
+
+$("go").onclick = async function(){
+  var name  = $("name").value.trim();
+  var phone = $("phone").value.trim();
+
+  if(name.length < 2)   { kaho("अपना नाम भरिए"); $("name").focus(); return; }
+  if(name.length > 80)  { kaho("नाम थोड़ा छोटा कीजिए"); return; }
+  var d = tel10(phone);
+  if(d.length !== 10)   { kaho("मोबाइल नंबर के 10 अंक भरिए"); $("phone").focus(); return; }
+
+  /* मशीन ने भरा हो तो चुपचाप धन्यवाद दिखा दीजिए, भेजिए कुछ नहीं */
+  if($("pet").value){ dikhao(name); return; }
+
+  var bill = parseFloat($("bill").value.replace(/[^\d.]/g,""));
+  var body = {
+    name: name,
+    phone: d,
+    village:  $("village").value.trim()  || null,
+    district: $("district").value.trim() || null,
+    monthly_bill: isNaN(bill) ? null : bill,
+    note: ($("note").value.trim() || "").slice(0,500) || null,
+    source: SRC,
+    campaign: CAMP,
+    status: "nayi"
+  };
+
+  $("go").disabled = true; $("go").textContent = "भेजा जा रहा है…"; kaho("");
+  try{
+    var r = await fetch(URL_ + "/rest/v1/lead_inbox", {
+      method: "POST",
+      headers: { apikey: KEY, Authorization: "Bearer " + KEY,
+                 "Content-Type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify(body)
+    });
+    if(!r.ok) throw new Error(String(r.status));
+    dikhao(name);
+  }catch(e){
+    kaho("अभी भेजा नहीं जा सका — network देखकर दोबारा दबाइए। " +
+         "जल्दी हो तो नीचे दिए नंबर पर सीधे call कर लीजिए।");
+    $("go").disabled = false; $("go").textContent = "दोबारा भेजिए";
+  }
+};
+
+function dikhao(name){
+  $("box").hidden = true;
+  $("kya").hidden = false;
+  $("done").hidden = false;
+  $("dtitle").textContent = "धन्यवाद, " + name.split(" ")[0] + " जी 🙏";
+  $("h1").textContent = "आपकी पूछताछ मिल गई";
+  $("hsub").textContent = "हम जल्दी ही आपसे बात करेंगे।";
+  try{ window.scrollTo(0,0); }catch(e){}   /* पुराने browser में भी न अटके */
+}
+
+/* Enter दबाने पर भी भेज दीजिए */
+["name","phone","village","district","bill"].forEach(function(id){
+  $(id).addEventListener("keydown", function(e){ if(e.key === "Enter") $("go").click(); });
+});
+</script>
+</body>
+</html>
